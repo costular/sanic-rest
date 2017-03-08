@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import asyncio
+
 from sanic.views import HTTPMethodView
 from sanic_rest.request import Request
 from sanic_rest import exceptions
@@ -27,5 +29,9 @@ class APIView(HTTPMethodView):
     def dispatch_request(self, request, *args, **kwargs):
         request = Request(request)
         view = getattr(self, request.method.lower(), None)
+
+        if not asyncio.iscoroutinefunction(view):
+            raise TypeError("Methods must puy `async` before def reserved word. Like this -> async def my_method()")
+
         self.check_before_request(request)
         return view(request, *args, **kwargs)
