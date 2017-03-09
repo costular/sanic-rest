@@ -6,9 +6,3 @@ from sanic import response
 __author__ = 'costular'
 
 
-class Response(response.HTTPResponse):
-    """
-    Wrapper of response class
-    """
-    pass
-

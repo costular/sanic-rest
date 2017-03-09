@@ -27,11 +27,11 @@ class APIView(HTTPMethodView):
         self.check_permissions(request)
 
     def dispatch_request(self, request, *args, **kwargs):
-        request = Request(request)
+        rest_request = Request(request)
         view = getattr(self, request.method.lower(), None)
 
         if not asyncio.iscoroutinefunction(view):
             raise TypeError("Methods must puy `async` before def reserved word. Like this -> async def my_method()")
 
         self.check_before_request(request)
-        return view(request, *args, **kwargs)
+        return view(rest_request, *args, **kwargs)
